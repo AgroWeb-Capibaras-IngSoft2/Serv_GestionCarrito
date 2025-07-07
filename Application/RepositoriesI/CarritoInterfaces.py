@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+from Domain.Carrito import Carrito
 class CrearCarrritoI (ABC):
     @abstractmethod
-    def crearCarrito(self,numberDocument:str,typeDocument:str):
+    def crearCarrito(self,newCarrito:Carrito)->dict:
         pass
     
 class VaciarCarritoI (ABC):

@@ -2,7 +2,7 @@ import psycopg2
 from Application.RepositoriesI.CarritoInterfaces import VaciarCarritoI
 from InterfaceAdapters.UtilsAdapter import UtilsAdapter
 class VaciarCarritoAdapter(VaciarCarritoI):
-    def __init__(self):
+    def __init__(self,conexion):
         try:
             self.connection=psycopg2.connect("psql 'postgresql://neondb_owner:npg_iHtshJ2kBE4o@ep-proud-dust-a8y6xl7k-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require'")
         except Exception as e:

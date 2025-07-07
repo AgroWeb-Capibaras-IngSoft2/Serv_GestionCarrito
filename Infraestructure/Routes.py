@@ -1,10 +1,16 @@
 from flask import Blueprint,request,jsonify
+from Application.UseCases.CrearCarritoUseCase import CrearCarritoUseCase
 bp=Blueprint("carrito",__name__)
+
+#Caso de Uso Crear Carrito
+createCarUseCase=CrearCarritoUseCase()
 
 #Un carrito se crea cuando se crea un usuario
 @bp.route("carrito/create",methods=["POST"])
 def crear_carrito():
     data=request.get_json()
+    #Esta data se pasa al caso de uso encargado
+    createCarUseCase.crearCarrito(data.get("userDocument"),data.get("docType"))
     pass
 #Añadir un nuevo producto al carrito
 @bp.route("carrito/addProduct",methods=["POST"])
