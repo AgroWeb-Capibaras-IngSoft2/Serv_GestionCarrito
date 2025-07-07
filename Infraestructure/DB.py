@@ -10,10 +10,12 @@ class DB:
     def crearPool(self):
         if (self.pool==None):
             try:
+                stringCon=os.getenv('DATA_BASE_URL')
+                print(stringCon)
                 self.pool=pool.SimpleConnectionPool(
                     1,
                     5,
-                    os.getenv('DATA_BASE_URL')
+                    stringCon
                 )
                 return{"Success":True,"message":"Pool creado exitosamente"}
             except Exception as e:

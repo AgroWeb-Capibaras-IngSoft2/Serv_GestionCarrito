@@ -3,14 +3,14 @@ import psycopg2
 class UtilsAdapter(UtilsI):
     def __init__(self,conexion):
         try:
-            self.connection=psycopg2.connect("psql 'postgresql://neondb_owner:npg_iHtshJ2kBE4o@ep-proud-dust-a8y6xl7k-pooler.eastus2.azure.neon.tech/neondb?sslmode=require&channel_binding=require'")
+            self.connection=conexion
         except Exception as e:
             raise ValueError(str(e))
         
     def validarExistenciaCarrito(self, numberDocument, typeDocument):
         sqlQuery="""SELECT id_carrito
                     FROM carrito
-                    WHERE userdocument=%s AND typeDocument=%s ;"""
+                    WHERE userdocument=%s AND userdocumenttype=%s ;"""
         rows=None
         try:
             with self.connection.cursor() as cursor:

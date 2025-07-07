@@ -11,14 +11,14 @@ class CrearCarritoUseCase:
 
 
     def crearCarrito(self,usrDocument:str,userDocType:str):
-        if(not(self.utils.validarExistenciaCarrito())): #Si el carrito no existe se crea uno
+        if(not(self.utils.validarExistenciaCarrito(usrDocument,userDocType))): #Si el carrito no existe se crea uno
             try:
                 new_carrito = Carrito(user_document=usrDocument,user_documentType=userDocType)
                 self.crearCarrRepo.crearCarrito(new_carrito)
                 return {"Success":True,"message":"Carrito creado con exito"}
 
             except Exception as e:
-                raise ValueError("No se pudo crear el objeto de Carrito, los datos no son validos")
+                raise ValueError(str(e))
         else:
             return{"Success":False,"message":"El carrito ya existe"}
 
