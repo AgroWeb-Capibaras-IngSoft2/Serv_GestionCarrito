@@ -30,14 +30,13 @@ class UtilsAdapter(UtilsI):
         sqlQuery="""
                 SELECT id_carrito 
                 FROM carrito
-                WHERE numberDocument=%s AND typeDocument=%s;
+                WHERE userdocument=%s AND userdocumenttype=%s;
         """
         result=None
         try:
             with self.connection.cursor() as cursor:
-                cursor.execute(sqlQuery)
+                cursor.execute(sqlQuery,(numberDocument,typeDocument))
                 result=cursor.fetchone()
         except Exception as e:
             raise ValueError(str(e))
-        self.connection.close()
-        return result[0]
+        return result

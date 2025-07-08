@@ -3,12 +3,8 @@ from Domain.Carrito import Carrito
 import psycopg2
 class CrearCarritoAdapter(CrearCarrritoI):
     def __init__(self,conexion):
-        #Realizamos la conexión a la base de datos
-        #TODO: Hacer un pool de conexiones
-        try:
-            self.connection=conexion
-        except Exception as e:
-            raise ValueError(str(e)) 
+        #Pasamos una conexion
+        self.connection=conexion
 
     def crearCarrito(self, newCarrito:Carrito):
         try:
@@ -23,4 +19,3 @@ class CrearCarritoAdapter(CrearCarrritoI):
         except Exception as e:
             self.connection.rollback()
             return {"Success":False,"error":str(e)}
-        
