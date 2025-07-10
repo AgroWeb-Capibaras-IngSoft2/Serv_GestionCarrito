@@ -19,12 +19,11 @@ class AnadirProductoUseCase:
                 cantidad=prodInfo["cantidad"],
                 medida=prodInfo["medida"]
             )
-            itemCar.calcularTotal()
-            self.addProdI.anadirProducto(itemCar)
-            return {"Success":True,"message":"Producto Anadido"}
+            itemCar.calcularTotal(prodInfo["price"])
+            return self.addProdI.anadirProducto(itemCar)
         except Exception as e:
-            raise ValueError(str(e))
-        return id_carrito
+            return {"Success":False,"message":str(e)}
+
 
 
 

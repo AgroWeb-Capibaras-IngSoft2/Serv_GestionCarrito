@@ -1,5 +1,6 @@
 from Application.RepositoriesI.CarritoInterfaces import AnadirProdCarritoI
 from Domain.ItemCarrito import ItemCarrito
+import psycopg2
 class AnadirProdAdapter(AnadirProdCarritoI):
     def __init__(self,conexion):
         self.conexion=conexion
@@ -19,5 +20,9 @@ class AnadirProdAdapter(AnadirProdCarritoI):
                                          newProd.cantidad,
                                          newProd.medida,
                                          newProd.total_prod))
+                self.conexion.commit()
+                return {"Success":True,"message":"Producto añadido exitosamente"}
+        except psycopg2.errors.UniqueViolation as e:
+            return {"Success":False,"message":"El producto ya esta en el carrito"}
         except Exception as e:
             raise ValueError(str(e))

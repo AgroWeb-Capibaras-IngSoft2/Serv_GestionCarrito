@@ -6,6 +6,8 @@ from InterfaceAdapters.UtilsAdapter import UtilsAdapter
 from InterfaceAdapters.AnadirProdAdapter import AnadirProdAdapter
 from Infraestructure.DB import DB
 from Infraestructure.CommunicationProdService import CommunicationProdService
+from Infraestructure.testProdInfo import chooseProduct
+
 
 bp=Blueprint("carrito",__name__)
 #Creamos una instancia de DB
@@ -40,13 +42,21 @@ def crear_carrito():
 #Añadir un nuevo producto al carrito
 @bp.route("/carrito/addProduct",methods=["POST"])
 def add_product():
-    try:
         #prodService=CommunicationProdService()
         #prodInfo=prodService.obtainProductInfo()
-        resul=anadirProdUseCase.addProdCarrito()
+        userDoc="1234567"
+        doctyType="CC"
+        medida="LB"
+        cantidad=3
+        prod=chooseProduct()
+        prod["cantidad"]=cantidad
+        prod["medida"]=medida
 
-    except Exception as e:
-        return jsonify({"Success":False,"message":"Error obteniendo información de producto"}),404
+        resul=anadirProdUseCase.addProdCarrito(userDoc,doctyType,prod)
+        if(resul["Success"]):
+            return jsonify({"Success":True,"message":resul["message"]}),201
+        else:
+            return jsonify({"Success":False,"message":resul["message"]}),500
 
 
 #Cambiar la cantidad de un producto

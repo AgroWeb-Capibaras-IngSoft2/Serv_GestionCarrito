@@ -4,7 +4,7 @@ from Application.RepositoriesI.CarritoInterfaces import UtilsI
 from Domain.Carrito import Carrito
 @dataclass
 class CrearCarritoUseCase:
-    '''El caso de uso depende de una abstracción no de una 
+    '''El caso de uso depende de una abstracción no de una
      implementacion concreta'''
     crearCarrRepo:CrearCarrritoI
     utils:UtilsI
