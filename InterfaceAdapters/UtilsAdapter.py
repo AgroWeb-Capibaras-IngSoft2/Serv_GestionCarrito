@@ -57,3 +57,23 @@ class UtilsAdapter(UtilsI):
                 return {"Success":True,"resul":result}
         except psycopg2.Error as e:
             return {"Success":False,"message":str(e)}
+
+    def verificarExistenciaProd(self, id_carrito, id_product):
+        print("id carrito",id_carrito)
+        print("id product",id_product)
+        try:
+            sqlQuery="""
+                SELECT id_carrito,product_id
+                FROM item_carrito WHERE id_carrito=%s AND product_id=%s ;
+            """
+            with self.connection.cursor() as cursor:
+                cursor.execute(sqlQuery,(id_carrito,id_product))
+                result=cursor.fetchone()
+                print("result:",result)
+                return {"Success":True,"result":result}
+        except psycopg2.Error as e:
+            print("ERROR EXC 1")
+            return {"Success":False,"message":str(e)}
+        except Exception as e:
+            print("ERROR EXC 2")
+            return {"Success":False,"message":str(e)}

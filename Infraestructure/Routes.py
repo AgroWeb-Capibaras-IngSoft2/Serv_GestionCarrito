@@ -2,10 +2,12 @@ from flask import Blueprint,request,jsonify
 from Application.UseCases.CrearCarritoUseCase import CrearCarritoUseCase
 from Application.UseCases.AnadirProdUseCase import AnadirProductoUseCase
 from Application.UseCases.CambiarCantidadUseCase import CambiarCantidadUseCase
+from Application.UseCases.EliminarProductoUseCase import EliminarProductoUseCase
 from InterfaceAdapters.CrearCarritoAdapter import CrearCarritoAdapter
 from InterfaceAdapters.UtilsAdapter import UtilsAdapter
 from InterfaceAdapters.AnadirProdAdapter import AnadirProdAdapter
 from InterfaceAdapters.CambiarCantidadAdapter import CambiarCantidadAdapter
+from InterfaceAdapters.EliminarProductoAdapter import EliminarProductoAdapter
 from Infraestructure.DB import DB
 from Infraestructure.CommunicationProdService import CommunicationProdService
 from Infraestructure.testProdInfo import chooseProduct,getProdInfo
@@ -31,6 +33,10 @@ anadirProdUseCase=AnadirProductoUseCase(addProdAdapter,utils)
 cambCantAdap=CambiarCantidadAdapter(conexion)
 #Creamos caso de uso de cambiar cantidad
 cambCabtiUseCase=CambiarCantidadUseCase(cambCantAdap,utils)
+#Creamos adaptador de eliminarProducto
+elimProdAdapter=EliminarProductoAdapter(conexion)
+#Creamos el caso de uso
+elimProdUseCase=EliminarProductoUseCase(elimProdAdapter,utils)
 #Un carrito se crea cuando se crea un usuario
 @bp.route("/carrito/create",methods=["POST"])
 def crear_carrito():
@@ -88,8 +94,18 @@ def cambiar_cantidad():
 #Eliminar producto del carrito
 @bp.route("/carrito/deleteProduct",methods=["DELETE"])
 def delete_product():
-    data=request.get_json()
-    pass
+    try:
+        data=request.get_json()
+        product_id=data.get("product_id")
+        carrito_id=data.get("carrito_id")
+        resul=elimProdUseCase.elimiarProdCarrito(product_id,carrito_id)
+        if(resul["Success"]):
+            return jsonify({"Success":True,"message":"Producto Eliminado del carrito"}),201
+        else:
+            return jsonify({"Success":False,"message":resul["message"]}),404
+    except Exception as e:
+        return jsonify({"Success":False,"message":str(e)})
+
 #Vaciar carrito
 @bp.route("/carrito/vaciar",methods=["DELETE"])
 def vaciar_carrito():

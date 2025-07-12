@@ -9,10 +9,11 @@ class CambiarCantidadAdapter(CambiarCantidadProdI):
         try:
             with self.conexion.cursor() as cursor:
                 sqlQuery="""
-                            UPDATE item_carrito SET cantidad=%s
+                            UPDATE item_carrito SET cantidad=%s,total_prod=%s
                             WHERE id_carrito=%s AND product_id=%s;
                         """
                 cursor.execute(sqlQuery,(itemCarrito.cantidad,
+                                         itemCarrito.total_prod,
                                          itemCarrito.id_carrito,
                                          itemCarrito.product_id))
                 self.conexion.commit()

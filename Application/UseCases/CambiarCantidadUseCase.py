@@ -10,7 +10,7 @@ class CambiarCantidadUseCase:
     def cambiarCantidad(self,prodInfo:dict,newCantidad,id_carrito,id_prod):
         try:
             #Traemos la información actual del item, con el precio y cantidad antigua
-            currentItem=self.utils.obtainItem(id_carrito,id_prod)["resul"]
+            currentItem=self.utils.obtainItem(id_carrito,id_prod)["result"]
             if(currentItem==None):
                 return {"Success":False,"message":"No se encontro un item actual para cambiar la cantidad del producto"}
             #Creamos un nuevo item con la info actualizada (cantidad y precio)

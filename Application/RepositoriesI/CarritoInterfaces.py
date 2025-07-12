@@ -5,7 +5,7 @@ class CrearCarrritoI (ABC):
     @abstractmethod
     def crearCarrito(self,newCarrito:Carrito)->dict:
         pass
-    
+
 class VaciarCarritoI (ABC):
     @abstractmethod
     def vaciarCarrito(self,numberDocument:str,typeDocuemt:str):
@@ -18,7 +18,7 @@ class AnadirProdCarritoI(ABC):
 
 class EliminarProdCarritoI(ABC):
     @abstractmethod
-    def eliminarProd(self,numberDocument:str,typeDocument:str,productId):
+    def eliminarProd(self,id_carrito:str,productId:str):
         pass
 
 class CambiarCantidadProdI(ABC):
@@ -40,6 +40,10 @@ class UtilsI(ABC):
         pass
     @abstractmethod
     def obtainItem(self,id_carrito:int,id_product:int)->dict:
+        pass
+    
+    @abstractmethod
+    def verificarExistenciaProd(self,id_carrito:int,id_product:int):
         pass
 
 
