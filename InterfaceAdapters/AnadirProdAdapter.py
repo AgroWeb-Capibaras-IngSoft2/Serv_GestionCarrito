@@ -23,6 +23,8 @@ class AnadirProdAdapter(AnadirProdCarritoI):
                 self.conexion.commit()
                 return {"Success":True,"message":"Producto añadido exitosamente"}
         except psycopg2.errors.UniqueViolation as e:
+            self.conexion.rollback()
             return {"Success":False,"message":"El producto ya esta en el carrito"}
         except Exception as e:
+            self.conexion.rollback()
             raise ValueError(str(e))

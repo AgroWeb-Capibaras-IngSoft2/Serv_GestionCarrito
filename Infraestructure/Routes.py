@@ -1,12 +1,14 @@
 from flask import Blueprint,request,jsonify
 from Application.UseCases.CrearCarritoUseCase import CrearCarritoUseCase
 from Application.UseCases.AnadirProdUseCase import AnadirProductoUseCase
+from Application.UseCases.CambiarCantidadUseCase import CambiarCantidadUseCase
 from InterfaceAdapters.CrearCarritoAdapter import CrearCarritoAdapter
 from InterfaceAdapters.UtilsAdapter import UtilsAdapter
 from InterfaceAdapters.AnadirProdAdapter import AnadirProdAdapter
+from InterfaceAdapters.CambiarCantidadAdapter import CambiarCantidadAdapter
 from Infraestructure.DB import DB
 from Infraestructure.CommunicationProdService import CommunicationProdService
-from Infraestructure.testProdInfo import chooseProduct
+from Infraestructure.testProdInfo import chooseProduct,getProdInfo
 
 
 bp=Blueprint("carrito",__name__)
@@ -14,6 +16,7 @@ bp=Blueprint("carrito",__name__)
 db=DB()
 db.crearPool()
 conexion=db.obtenerConexion()
+
 #Creamos un adaptador de crear carrito
 crearCarAdapter=CrearCarritoAdapter(conexion)
 #Creamos un adaptador de utils
@@ -24,9 +27,10 @@ createCarUseCase=CrearCarritoUseCase(crearCarAdapter,utils)
 addProdAdapter=AnadirProdAdapter(conexion)
 #Caso de Uso anadir Producto
 anadirProdUseCase=AnadirProductoUseCase(addProdAdapter,utils)
-
-
-
+#Creamos adaptador de cambiar cantidad de prod
+cambCantAdap=CambiarCantidadAdapter(conexion)
+#Creamos caso de uso de cambiar cantidad
+cambCabtiUseCase=CambiarCantidadUseCase(cambCantAdap,utils)
 #Un carrito se crea cuando se crea un usuario
 @bp.route("/carrito/create",methods=["POST"])
 def crear_carrito():
@@ -44,6 +48,7 @@ def crear_carrito():
 def add_product():
         #prodService=CommunicationProdService()
         #prodInfo=prodService.obtainProductInfo()
+    try:
         userDoc="1234567"
         doctyType="CC"
         medida="LB"
@@ -57,13 +62,28 @@ def add_product():
             return jsonify({"Success":True,"message":resul["message"]}),201
         else:
             return jsonify({"Success":False,"message":resul["message"]}),500
+    except Exception as e:
+        return jsonify({"success":False,"message":str(e)})
 
 
 #Cambiar la cantidad de un producto
 @bp.route("/carrito/changeQuantity",methods=["PUT"])
 def cambiar_cantidad():
     data=request.get_json()
-    pass
+    id_carrito=data.get("id_carrito")
+    id_prod=data.get("product_id")
+    new_quantity=data.get("cantidad")
+    print(id_carrito,id_prod,new_quantity)
+    try:
+        prod=getProdInfo(id_prod)
+        resul=cambCabtiUseCase.cambiarCantidad(prod,new_quantity,id_carrito,id_prod)
+        if(resul["Success"]):
+            return jsonify(resul),201
+        else:
+            return jsonify(resul),400
+    except Exception as e:
+        return jsonify({"Success":False,"message":str(e)}),500
+
 
 #Eliminar producto del carrito
 @bp.route("/carrito/deleteProduct",methods=["DELETE"])
@@ -82,6 +102,7 @@ def get_carrito():
     data=request.get_json()
     pass
 
+#Este endpoint es de prueba, no va acá
 @bp.route("/carrito/getCarritoId",methods=["GET"])
 def getCarritoId():
     data=request.get_json()

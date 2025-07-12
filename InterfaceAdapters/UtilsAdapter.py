@@ -1,5 +1,6 @@
 from Application.RepositoriesI.CarritoInterfaces import UtilsI
 import psycopg2
+from psycopg2.extras import RealDictCursor
 class UtilsAdapter(UtilsI):
     def __init__(self,conexion):
         try:
@@ -28,7 +29,7 @@ class UtilsAdapter(UtilsI):
 
     def obtenerIdCarrito(self, numberDocument, typeDocument):
         sqlQuery="""
-                SELECT id_carrito 
+                SELECT id_carrito
                 FROM carrito
                 WHERE userdocument=%s AND userdocumenttype=%s;
         """
@@ -40,3 +41,19 @@ class UtilsAdapter(UtilsI):
         except Exception as e:
             raise ValueError(str(e))
         return result
+
+    def obtainItem(self,id_carrito,id_product):
+        sqlQuery="""
+                SELECT iditem,id_carrito,userdocument,userdocumenttype,
+                        product_id,product_name,cantidad,medida
+                FROM item_carrito
+                WHERE id_carrito=%s AND product_id=%s;
+        """
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                cursor.execute(sqlQuery,(id_carrito,
+                                         id_product))
+                result=cursor.fetchone()
+                return {"Success":True,"resul":result}
+        except psycopg2.Error as e:
+            return {"Success":False,"message":str(e)}

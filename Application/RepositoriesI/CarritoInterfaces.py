@@ -23,7 +23,7 @@ class EliminarProdCarritoI(ABC):
 
 class CambiarCantidadProdI(ABC):
     @abstractmethod
-    def cambiarCantidad(self,numberDocument:str,typeDocument:str,productId,cantidad):
+    def cambiarCantidad(self,newItem:ItemCarrito):
         pass
 
 class ObtenerCarritoI(ABC):
@@ -38,5 +38,9 @@ class UtilsI(ABC):
     @abstractmethod
     def obtenerIdCarrito(self,numberDocument:str,typeDocument:str)->int:
         pass
+    @abstractmethod
+    def obtainItem(self,id_carrito:int,id_product:int)->dict:
+        pass
+
 
 
