@@ -26,6 +26,24 @@ class UtilsAdapter(UtilsI):
         self.connection.close()
         return False
 
+    def existsCarrito(self,id_carrito:int):
+        try:
+            sqlQuery="""
+                SELECT id_carrito
+                FROM carrito WHERE id_carrito=%s ;
+            """
+            with self.connection.cursor() as cursor:
+                cursor.execute(sqlQuery,(id_carrito))
+                result=cursor.fetchone()
+                if(result):
+                    return {"Success":True,"result":result}
+                else:
+                    return{"Success":False,"message":"No se encontro un carrito con este id"}
+        except psycopg2.Error as e:
+            return {"Success":False,"message":str(e)}
+        except Exception as e:
+            return {"Success":False,"message":str(e)}
+
 
     def obtenerIdCarrito(self, numberDocument, typeDocument):
         sqlQuery="""
