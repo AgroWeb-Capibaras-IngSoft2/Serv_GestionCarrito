@@ -3,11 +3,13 @@ from Application.UseCases.CrearCarritoUseCase import CrearCarritoUseCase
 from Application.UseCases.AnadirProdUseCase import AnadirProductoUseCase
 from Application.UseCases.CambiarCantidadUseCase import CambiarCantidadUseCase
 from Application.UseCases.EliminarProductoUseCase import EliminarProductoUseCase
+from Application.UseCases.VaciarCarritoUseCase import VaciarCarritoUseCase
 from InterfaceAdapters.CrearCarritoAdapter import CrearCarritoAdapter
 from InterfaceAdapters.UtilsAdapter import UtilsAdapter
 from InterfaceAdapters.AnadirProdAdapter import AnadirProdAdapter
 from InterfaceAdapters.CambiarCantidadAdapter import CambiarCantidadAdapter
 from InterfaceAdapters.EliminarProductoAdapter import EliminarProductoAdapter
+from InterfaceAdapters.VaciarCarritoAdapter import VaciarCarritoAdapter
 from Infraestructure.DB import DB
 from Infraestructure.CommunicationProdService import CommunicationProdService
 from Infraestructure.testProdInfo import chooseProduct,getProdInfo
@@ -37,6 +39,11 @@ cambCabtiUseCase=CambiarCantidadUseCase(cambCantAdap,utils)
 elimProdAdapter=EliminarProductoAdapter(conexion)
 #Creamos el caso de uso
 elimProdUseCase=EliminarProductoUseCase(elimProdAdapter,utils)
+#Creamos adaptador de vaciar carrito
+vaciarCarrAdap=VaciarCarritoAdapter(conexion)
+#Creamos el caso de uso de vaciar carrito
+vaciarCarUseCase=VaciarCarritoUseCase(vaciarCarrAdap,utils)
+
 #Un carrito se crea cuando se crea un usuario
 @bp.route("/carrito/create",methods=["POST"])
 def crear_carrito():
@@ -109,8 +116,16 @@ def delete_product():
 #Vaciar carrito
 @bp.route("/carrito/vaciar",methods=["DELETE"])
 def vaciar_carrito():
-    data=request.get_json()
-    pass
+    id_carrito=request.args.get("id_carrito")
+    if (id_carrito):
+        resul=vaciarCarUseCase.vaciarCarritoUC(id_carrito)
+        if(resul["Success"]):
+            return jsonify(resul),200
+        else:
+            return jsonify(resul),500
+    else:
+        return jsonify({"Success":False,"message":"No se ha enviado un id de carrito para procesar la solicitud"}),400
+
 
 #Obtener carrito
 @bp.route("/carrito/getCarrito",methods=["GET"])
