@@ -8,7 +8,7 @@ class ObtenerCarritoAdapter(ObtenerCarritoI):
 
     def getCarritoInfo(self,id_carrito):
         sqlQuery="""
-                SELECT id_carrito,total
+                SELECT id_carrito
                 FROM carrito
                 WHERE id_carrito=%s ;
                 """
@@ -38,3 +38,4 @@ class ObtenerCarritoAdapter(ObtenerCarritoI):
             return({"Success":False,"message":str(e)})
         except Exception as e:
             return({"Success":False,"message":str(e)})
+
