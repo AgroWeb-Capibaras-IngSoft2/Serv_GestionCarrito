@@ -93,9 +93,9 @@ def cambiar_cantidad():
     id_carrito=data.get("id_carrito")
     id_prod=data.get("product_id")
     new_quantity=data.get("cantidad")
-    print(id_carrito,id_prod,new_quantity)
     try:
-        prod=getProdInfo(id_prod)
+        prodServ=CommunicationProdService()
+        prod=prodServ.obtainProductInfo(id_prod)
         resul=cambCabtiUseCase.cambiarCantidad(prod,new_quantity,id_carrito,id_prod)
         if(resul["Success"]):
             return jsonify(resul),201
