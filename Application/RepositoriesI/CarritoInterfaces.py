@@ -39,11 +39,11 @@ class UtilsI(ABC):
     def obtenerIdCarrito(self,numberDocument:str,typeDocument:str)->int:
         pass
     @abstractmethod
-    def obtainItem(self,id_carrito:int,id_product:int)->dict:
+    def obtainItem(self,id_carrito:int,id_product:str)->dict:
         pass
 
     @abstractmethod
-    def verificarExistenciaProd(self,id_carrito:int,id_product:int):
+    def verificarExistenciaProd(self,id_carrito:int,id_product:str):
         pass
 
     @abstractmethod

@@ -63,7 +63,7 @@ def add_product():
         #prodInfo=prodService.obtainProductInfo()
     try:
         prodService=CommunicationProdService()
-        prodInfo=prodService.obtainProductInfo("PROD-577D6765")
+        prodInfo=prodService.obtainProductInfo("PROD-661AA7F9")
         print(prodInfo)
         print(type(prodInfo))
         userDoc="1234567"
