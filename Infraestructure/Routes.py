@@ -15,6 +15,7 @@ from InterfaceAdapters.ObtenerCarritoAdapter import ObtenerCarritoAdapter
 from Infraestructure.DB import DB
 from Infraestructure.CommunicationProdService import CommunicationProdService
 from Infraestructure.testProdInfo import chooseProduct,getProdInfo
+from Infraestructure.MetricsDecorator import monitor_endpoint
 
 
 bp=Blueprint("carrito",__name__)
@@ -52,6 +53,7 @@ obtCarritoUseC=ObtenerCarritoUseCase(obtCarritoAdap,utils)
 
 #Un carrito se crea cuando se crea un usuario
 @bp.route("/carrito/create",methods=["POST"])
+@monitor_endpoint("crear_carrito")
 def crear_carrito():
     data=request.get_json()
     #Esta data se pasa al caso de uso encargado
@@ -64,6 +66,7 @@ def crear_carrito():
 
 #Añadir un nuevo producto al carrito
 @bp.route("/carrito/addProduct",methods=["POST"])
+@monitor_endpoint("add_product")
 def add_product():
     try:
         data=request.get_json()
@@ -88,6 +91,7 @@ def add_product():
 
 #Cambiar la cantidad de un producto
 @bp.route("/carrito/changeQuantity",methods=["PUT"])
+@monitor_endpoint("change_quantity")
 def cambiar_cantidad():
     data=request.get_json()
     id_carrito=data.get("id_carrito")
@@ -107,6 +111,7 @@ def cambiar_cantidad():
 
 #Eliminar producto del carrito
 @bp.route("/carrito/deleteProduct",methods=["DELETE"])
+@monitor_endpoint("delete_product")
 def delete_product():
     try:
         data=request.get_json()
@@ -122,6 +127,7 @@ def delete_product():
 
 #Vaciar carrito
 @bp.route("/carrito/vaciar",methods=["DELETE"])
+@monitor_endpoint("vaciar_carrito")
 def vaciar_carrito():
     id_carrito=request.args.get("id_carrito")
     if (id_carrito):
@@ -136,6 +142,7 @@ def vaciar_carrito():
 
 #Obtener carrito
 @bp.route("/carrito/getCarrito/<id>",methods=["GET"])
+@monitor_endpoint("get_carrito")
 def get_carrito(id):
     try:
         result=obtCarritoUseC.getAllCarritoInfo(id)
