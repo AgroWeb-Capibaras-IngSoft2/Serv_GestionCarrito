@@ -4,12 +4,14 @@ from Application.UseCases.AnadirProdUseCase import AnadirProductoUseCase
 from Application.UseCases.CambiarCantidadUseCase import CambiarCantidadUseCase
 from Application.UseCases.EliminarProductoUseCase import EliminarProductoUseCase
 from Application.UseCases.VaciarCarritoUseCase import VaciarCarritoUseCase
+from Application.UseCases.ObtenerCarritoUseCase import ObtenerCarritoUseCase
 from InterfaceAdapters.CrearCarritoAdapter import CrearCarritoAdapter
 from InterfaceAdapters.UtilsAdapter import UtilsAdapter
 from InterfaceAdapters.AnadirProdAdapter import AnadirProdAdapter
 from InterfaceAdapters.CambiarCantidadAdapter import CambiarCantidadAdapter
 from InterfaceAdapters.EliminarProductoAdapter import EliminarProductoAdapter
 from InterfaceAdapters.VaciarCarritoAdapter import VaciarCarritoAdapter
+from InterfaceAdapters.ObtenerCarritoAdapter import ObtenerCarritoAdapter
 from Infraestructure.DB import DB
 from Infraestructure.CommunicationProdService import CommunicationProdService
 from Infraestructure.testProdInfo import chooseProduct,getProdInfo
@@ -43,6 +45,10 @@ elimProdUseCase=EliminarProductoUseCase(elimProdAdapter,utils)
 vaciarCarrAdap=VaciarCarritoAdapter(conexion)
 #Creamos el caso de uso de vaciar carrito
 vaciarCarUseCase=VaciarCarritoUseCase(vaciarCarrAdap,utils)
+#Creamos adaptador de ObtenerCarrito
+obtCarritoAdap=ObtenerCarritoAdapter(conexion)
+#Creamos caso de uso de ObtenerCarrito
+obtCarritoUseC=ObtenerCarritoUseCase(obtCarritoAdap,utils)
 
 #Un carrito se crea cuando se crea un usuario
 @bp.route("/carrito/create",methods=["POST"])
@@ -129,20 +135,14 @@ def vaciar_carrito():
 
 
 #Obtener carrito
-@bp.route("/carrito/getCarrito",methods=["GET"])
-def get_carrito():
-    data=request.get_json()
-    pass
+@bp.route("/carrito/getCarrito/<id>",methods=["GET"])
+def get_carrito(id):
+    try:
+        result=obtCarritoUseC.getAllCarritoInfo(id)
+        return jsonify(result),201
+    except Exception as e:
+        return jsonify ({"Success":False, "message":str(e)}),500
 
-#Este endpoint es de prueba, no va acá
-@bp.route("/carrito/getCarritoId",methods=["GET"])
-def getCarritoId():
-    data=request.get_json()
-    id=anadirProdUseCase.addProdCarrito(data.get("userdocument"),data.get("userdoctype"))
-    if(not id==None):
-        return({"Success":True,"Id carrito":id})
-    else:
-        return({"Success":False,"Id carrito":"No existe"})
 
 
 
