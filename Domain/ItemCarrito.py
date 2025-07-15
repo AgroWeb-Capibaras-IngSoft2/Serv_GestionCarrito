@@ -5,7 +5,7 @@ class ItemCarrito:
     id_carrito:int
     userDocument:str
     userDocumentType:str
-    product_id:int
+    product_id:str
     product_name:str
     cantidad:int
     medida:str
