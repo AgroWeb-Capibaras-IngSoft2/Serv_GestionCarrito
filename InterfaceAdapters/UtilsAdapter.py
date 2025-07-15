@@ -95,3 +95,15 @@ class UtilsAdapter(UtilsI):
         except Exception as e:
             print("ERROR EXC 2")
             return {"Success":False,"message":str(e)}
+    
+    def getUserData(self, id_carrito):
+        sqlQuery="""SELECT userdocument,userdocumenttype
+                    FROM carrito where id_carrito=%s ;"""
+        try:
+            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                cursor.execute(sqlQuery,(id_carrito,))
+                resul=cursor.fetchone()
+                return ({"Success":True,"resul":resul})
+        except Exception as e:
+            print("ERROR ACA")
+            raise ValueError(str(e))

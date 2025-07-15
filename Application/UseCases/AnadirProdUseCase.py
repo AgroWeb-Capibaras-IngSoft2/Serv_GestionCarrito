@@ -7,17 +7,18 @@ class AnadirProductoUseCase:
     addProdI:AnadirProdCarritoI
     utils:UtilsI
 
-    def addProdCarrito(self,userDocument,documentType,prodInfo:dict):
-        id_carrito=self.utils.obtenerIdCarrito(userDocument,documentType)
+    def addProdCarrito(self,id_carrito,prodInfo:dict):
         try:
+            userData=self.utils.getUserData(id_carrito)["resul"]
+            print(userData)
             itemCar=ItemCarrito(
                 id_carrito,
-                userDocument=userDocument,
-                userDocumentType=documentType,
+                userDocument=userData["userdocument"],
+                userDocumentType=userData["userdocumenttype"],
                 product_id=prodInfo["productId"],
                 product_name=prodInfo["name"],
                 cantidad=prodInfo["cantidad"],
-                medida=prodInfo["medida"]
+                medida=prodInfo["unit"]
             )
             itemCar.calcularTotal(prodInfo["price"])
             return self.addProdI.anadirProducto(itemCar)

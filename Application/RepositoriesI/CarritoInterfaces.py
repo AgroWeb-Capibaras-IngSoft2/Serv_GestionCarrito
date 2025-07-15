@@ -50,5 +50,9 @@ class UtilsI(ABC):
     def existsCarrito(self,id_carrito:int):
         pass
 
+    @abstractmethod
+    def getUserData(self,id_carrito):
+        pass
+
 
 

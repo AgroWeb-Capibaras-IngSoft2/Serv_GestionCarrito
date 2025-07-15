@@ -59,22 +59,19 @@ def crear_carrito():
 #Añadir un nuevo producto al carrito
 @bp.route("/carrito/addProduct",methods=["POST"])
 def add_product():
-        #prodService=CommunicationProdService()
-        #prodInfo=prodService.obtainProductInfo()
     try:
+        data=request.get_json()
+        prod_id=data.get("product_id")
         prodService=CommunicationProdService()
-        prodInfo=prodService.obtainProductInfo("PROD-661AA7F9")
+        prodInfo=prodService.obtainProductInfo(prod_id)
         print(prodInfo)
         print(type(prodInfo))
-        userDoc="1234567"
-        doctyType="CC"
-        medida="LB"
-        cantidad=3
-        prod=prodInfo
-        prod["cantidad"]=cantidad
-        prod["medida"]=medida
+        id_carrito=data.get("id_carrito")
+        cantidad=data.get("cantidad")
+        prodInfo["cantidad"]=cantidad
 
-        resul=anadirProdUseCase.addProdCarrito(userDoc,doctyType,prod)
+
+        resul=anadirProdUseCase.addProdCarrito(id_carrito,prodInfo)
         if(resul["Success"]):
             return jsonify({"Success":True,"message":resul["message"]}),201
         else:
