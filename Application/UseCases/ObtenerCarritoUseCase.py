@@ -18,6 +18,12 @@ class ObtenerCarritoUseCase:
 
             if(successGeneral and successItems):
                 generalInfo["items"]=items
+                generalInfo["total"]=self.calcularTotal(items)
                 return {"Success":True,"resul":generalInfo}
         except Exception as e:
             return {"Success":False,"message":str(e)}
+    
+    def calcularTotal(self,items:dict):
+        if(items):
+            return sum(item["total_prod"] for item in items)
+        return 0
