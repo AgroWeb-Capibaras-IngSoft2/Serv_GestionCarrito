@@ -14,8 +14,8 @@ class AnadirProductoUseCase:
                 id_carrito,
                 userDocument=userDocument,
                 userDocumentType=documentType,
-                product_id=prodInfo["product_id"],
-                product_name=prodInfo["prod_name"],
+                product_id=prodInfo["productId"],
+                product_name=prodInfo["name"],
                 cantidad=prodInfo["cantidad"],
                 medida=prodInfo["medida"]
             )

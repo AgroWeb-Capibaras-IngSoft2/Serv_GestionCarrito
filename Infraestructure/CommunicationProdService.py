@@ -1,17 +1,17 @@
-PORT="5001"
 import requests
 class CommunicationProdService:
     def __init__(self):
-        self.PORT="5001"
-        self.URL=f"http://localhost:{PORT}/products/getProduct"
+        self.PORT="5000"
+        self.URL=f"http://localhost:{self.PORT}/products"
 
-    def obtainProductInfo(self,product_id)->dict:
+    def obtainProductInfo(self,product_id):
         try:
-            request=requests.get(
-                self.URL,params=product_id
+            url=f"{self.URL}/{product_id}"
+            response=requests.get(
+                url
             )
-            response=request.json()
-            return response
+            response.raise_for_status()
+            return response.json()
         except Exception as e:
             raise ValueError (str(e))
 

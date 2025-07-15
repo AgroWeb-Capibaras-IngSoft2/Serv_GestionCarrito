@@ -62,11 +62,15 @@ def add_product():
         #prodService=CommunicationProdService()
         #prodInfo=prodService.obtainProductInfo()
     try:
+        prodService=CommunicationProdService()
+        prodInfo=prodService.obtainProductInfo("PROD-577D6765")
+        print(prodInfo)
+        print(type(prodInfo))
         userDoc="1234567"
         doctyType="CC"
         medida="LB"
         cantidad=3
-        prod=chooseProduct()
+        prod=prodInfo
         prod["cantidad"]=cantidad
         prod["medida"]=medida
 
@@ -76,7 +80,7 @@ def add_product():
         else:
             return jsonify({"Success":False,"message":resul["message"]}),500
     except Exception as e:
-        return jsonify({"success":False,"message":str(e)})
+        return jsonify({"Success":False,"message":str(e)})
 
 
 #Cambiar la cantidad de un producto
