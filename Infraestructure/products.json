@@ -1,0 +1,56 @@
+{
+  "products": [
+    {
+      "product_id": 1,
+      "prod_name": "Arroz",
+      "price": 2500.0
+    },
+    {
+      "product_id": 2,
+      "prod_name": "Frijoles",
+      "price": 3200.0
+    },
+    {
+      "product_id": 3,
+      "prod_name": "Lentejas",
+      "price": 2900.0
+    },
+    {
+      "product_id": 4,
+      "prod_name": "Aceite",
+      "price": 8000.0
+    },
+    {
+      "product_id": 5,
+      "prod_name": "Azúcar",
+      "price": 2700.0
+    },
+    {
+      "product_id": 6,
+      "prod_name": "Sal",
+      "price": 1200.0
+    },
+    {
+      "product_id": 7,
+      "prod_name": "Pasta",
+      "price": 2300.0
+    },
+    {
+      "product_id": 8,
+      "prod_name": "Harina",
+      "price": 2100.0
+    },
+    {
+      "product_id": 9,
+      "prod_name": "Leche",
+      "price": 4500.0
+    },
+    {
+      "product_id": 10,
+      "prod_name": "Huevos",
+      "price": 11000.0
+    }
+  ]
+}
+
+
