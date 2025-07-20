@@ -38,4 +38,6 @@ class DB:
     
     def cerrarConexiones(self):
         self.pool.closeall()
-            
+    
+    def getPool(self):
+        return self.pool
