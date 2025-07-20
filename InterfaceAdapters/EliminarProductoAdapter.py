@@ -1,21 +1,24 @@
 from Application.RepositoriesI.CarritoInterfaces import EliminarProdCarritoI
 import psycopg2
 class EliminarProductoAdapter(EliminarProdCarritoI):
-    def __init__(self,conexion):
-        self.conexion=conexion
+    def __init__(self,pool):
+        self.pool=pool
 
     def eliminarProd(self, id_carrito, productId):
+        connection = self.pool.getconn()
         try:
-            with self.conexion.cursor() as cursor:
+            with connection.cursor() as cursor:
                 sqlQuery="""DELETE FROM item_carrito
                             WHERE id_carrito=%s AND product_id=%s ;"""
                 cursor.execute(sqlQuery,(id_carrito,productId))
-                self.conexion.commit()
+                connection.commit()
                 return {"Success":True,"message":"Producto eliminado del carrito"}
         except psycopg2.Error as e:
-            self.conexion.rollback()
+            connection.rollback()
             return {"Success":False,"message":str(e)}
         except Exception as e:
-            self.conexion.rollback()
+            connection.rollback()
             return {"Success":False,"message":str(e)}
+        finally:
+            self.pool.putconn(connection)
 

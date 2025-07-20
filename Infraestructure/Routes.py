@@ -22,32 +22,33 @@ bp=Blueprint("carrito",__name__)
 #Creamos una instancia de DB
 db=DB()
 db.crearPool()
-conexion=db.obtenerConexion()
+pool=db.getPool()
+
 
 #Creamos un adaptador de crear carrito
-crearCarAdapter=CrearCarritoAdapter(conexion)
+crearCarAdapter=CrearCarritoAdapter(pool)
 #Creamos un adaptador de utils
-utils= UtilsAdapter(conexion)
+utils= UtilsAdapter(pool)
 #Caso de Uso Crear Carrito
 createCarUseCase=CrearCarritoUseCase(crearCarAdapter,utils)
 #Creamos adaptador de anadirProd
-addProdAdapter=AnadirProdAdapter(conexion)
+addProdAdapter=AnadirProdAdapter(pool)
 #Caso de Uso anadir Producto
 anadirProdUseCase=AnadirProductoUseCase(addProdAdapter,utils)
 #Creamos adaptador de cambiar cantidad de prod
-cambCantAdap=CambiarCantidadAdapter(conexion)
+cambCantAdap=CambiarCantidadAdapter(pool)
 #Creamos caso de uso de cambiar cantidad
 cambCabtiUseCase=CambiarCantidadUseCase(cambCantAdap,utils)
 #Creamos adaptador de eliminarProducto
-elimProdAdapter=EliminarProductoAdapter(conexion)
+elimProdAdapter=EliminarProductoAdapter(pool)
 #Creamos el caso de uso
 elimProdUseCase=EliminarProductoUseCase(elimProdAdapter,utils)
 #Creamos adaptador de vaciar carrito
-vaciarCarrAdap=VaciarCarritoAdapter(conexion)
+vaciarCarrAdap=VaciarCarritoAdapter(pool)
 #Creamos el caso de uso de vaciar carrito
 vaciarCarUseCase=VaciarCarritoUseCase(vaciarCarrAdap,utils)
 #Creamos adaptador de ObtenerCarrito
-obtCarritoAdap=ObtenerCarritoAdapter(conexion)
+obtCarritoAdap=ObtenerCarritoAdapter(pool)
 #Creamos caso de uso de ObtenerCarrito
 obtCarritoUseC=ObtenerCarritoUseCase(obtCarritoAdap,utils)
 
@@ -56,6 +57,7 @@ obtCarritoUseC=ObtenerCarritoUseCase(obtCarritoAdap,utils)
 @monitor_endpoint("crear_carrito")
 def crear_carrito():
     data=request.get_json()
+    print(data)
     #Esta data se pasa al caso de uso encargado
     resul=createCarUseCase.crearCarrito(data.get("userDocument"),data.get("docType"))
     #TODO: Cerrar conexión
