@@ -1,6 +1,6 @@
 # Servicio de Gestión de Carrito de Compras
 
-Microservicio backend desarrollado en Flask para la gestión de carritos de compras, implementado con arquitectura limpia (Clean Architecture) y observabilidad con Prometheus.
+Microservicio backend desarrollado en Flask para la gestión de carritos de compras, implementado con arquitectura limpia (Clean Architecture), observabilidad con Prometheus y documentación interactiva con Swagger.
 
 ## Características
 
@@ -9,6 +9,7 @@ Microservicio backend desarrollado en Flask para la gestión de carritos de comp
 - ✅ **Observabilidad**: Métricas con Prometheus (contadores, latencia, errores)
 - ✅ **API REST**: Endpoints para gestión completa del carrito
 - ✅ **Pool de conexiones**: Manejo eficiente de conexiones a la base de datos
+- ✅ **Documentación Swagger**: API interactiva y auto-documentada
 
 ## 1. Instrucciones de instalación
 
@@ -84,9 +85,23 @@ python app.py
 
 El servicio estará disponible en:
 - **API**: `http://localhost:5003`
+- **Documentación Swagger**: `http://localhost:5003/docs/`
 - **Métricas**: `http://localhost:5003/metrics`
 
 ## 3. Documentación de endpoints
+
+### 📚 **Documentación interactiva con Swagger**
+
+La API cuenta con **documentación completa e interactiva** usando Swagger/OpenAPI. Puedes:
+
+- ✅ **Ver todos los endpoints** con ejemplos
+- ✅ **Probar la API directamente** desde el navegador
+- ✅ **Ver esquemas** de request y response
+- ✅ **Descargar la especificación** OpenAPI
+
+**🔗 Acceder a la documentación:**
+- **Swagger UI**: `http://localhost:5003/docs/`
+- **Especificación JSON**: `http://localhost:5003/apispec.json`
 
 ### Gestión de Carrito
 
@@ -169,6 +184,38 @@ GET /carrito/getCarrito/1
 DELETE /carrito/vaciar?id_carrito=1
 ```
 
+## 4. Documentación Swagger
+
+### 🚀 **Usando la documentación interactiva**
+
+El servicio incluye **documentación completa con Swagger UI** que te permite:
+
+1. **📖 Explorar todos los endpoints** con descripciones detalladas
+2. **🧪 Probar la API directamente** desde el navegador
+3. **📋 Ver ejemplos** de requests y responses
+4. **📥 Descargar** la especificación OpenAPI
+
+### **Cómo acceder:**
+
+1. **Inicia el servicio**:
+   ```bash
+   python app.py
+   ```
+
+2. **Abre tu navegador** y ve a:
+   ```
+   http://localhost:5003/docs/
+   ```
+
+3. **¡Listo!** Podrás ver y probar todos los endpoints interactivamente.
+
+### **Funcionalidades de Swagger UI:**
+
+- **Try it out**: Prueba cualquier endpoint con datos reales
+- **Schemas**: Ve la estructura exacta de requests y responses  
+- **Examples**: Datos de ejemplo para cada endpoint
+- **Download**: Descarga la especificación en `http://localhost:5003/apispec.json`
+
 ## Observabilidad con Prometheus
 
 El servicio incluye instrumentación básica con Prometheus que captura:
@@ -212,6 +259,7 @@ GestionCarrito/
 - **psycopg2**: Conector de PostgreSQL
 - **Prometheus**: Observabilidad y métricas
 - **Flask-CORS**: Manejo de CORS
+- **Swagger/OpenAPI**: Documentación interactiva de la API (Flasgger)
 
 ## Contribución
 

@@ -1,4 +1,6 @@
 flask
+flask-cors
 psycopg2
-dotenv
+python-dotenv
 prometheus_client
+flasgger
