@@ -36,7 +36,7 @@ class UtilsAdapter(UtilsI):
             self.pool.putconn(self.connection)
 
 
-    def existsCarrito(self,id_carrito:int):
+    def existsCarrito(self,id_carrito:str):
         # Rollback preventivo para limpiar cualquier transacción pendiente
         self.connection=self.pool.getconn()
         try:
@@ -157,4 +157,4 @@ class UtilsAdapter(UtilsI):
             self.connection.rollback()
             raise ValueError(str(e))
         finally:
-            self.pool.putconn(self.conexion)
+            self.pool.putconn(self.connection)

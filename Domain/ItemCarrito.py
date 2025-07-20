@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import date
 @dataclass
 class ItemCarrito:
-    id_carrito:int
+    id_carrito:str
     userDocument:str
     userDocumentType:str
     product_id:str

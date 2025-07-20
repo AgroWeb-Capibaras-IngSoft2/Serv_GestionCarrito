@@ -7,6 +7,9 @@ class ObtenerCarritoUseCase:
 
     def getAllCarritoInfo(self,id_carrito):
         try:
+            exists=self.utlis.existsCarrito(id_carrito)
+            if(not exists):
+                return {"Success":False,"message":"No existe"}
             respGeneral = self.obtCarrI.getCarritoInfo(id_carrito)
             respItems = self.obtCarrI.getCarritoItems(id_carrito)
 

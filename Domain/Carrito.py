@@ -1,12 +1,13 @@
-from dataclasses import dataclass
+from dataclasses import dataclass,field
 from datetime import date
+import uuid
 @dataclass
 class Carrito:
-    user_document:str
-    user_documentType:str
-    total:float=0.00
-    carrito_id=0
-    creationDate=date.today()
+    user_document: str
+    user_documentType: str
+    total: float = 0.00
+    carrito_id: str = field(default_factory=lambda: f"CARR-{str(uuid.uuid4())[:8].upper()}")
+    creationDate: date = field(default_factory=date.today)
 
 
     #TODO: Añadir cedula de extranjería
@@ -14,6 +15,6 @@ class Carrito:
         return self.user_documentType in ["CC","TI"]
 
     def __post_init__(self):
-       if (not self.validar_tipo_doc):
+       if (not self.validar_tipo_doc()):
             raise ValueError("El tipo de documento no es valido")
 

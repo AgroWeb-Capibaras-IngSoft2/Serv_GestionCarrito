@@ -36,6 +36,13 @@ class DB:
     def liberarConexion(self,conexion):
         self.pool.putconn(conexion)
     
+    def getPool(self):
+        """Retorna el pool de conexiones"""
+        if self.pool is not None:
+            return self.pool
+        else:
+            raise ValueError("No existe un pool de conexiones")
+    
     def cerrarConexiones(self):
         self.pool.closeall()
     

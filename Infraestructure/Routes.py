@@ -60,7 +60,6 @@ def crear_carrito():
     print(data)
     #Esta data se pasa al caso de uso encargado
     resul=createCarUseCase.crearCarrito(data.get("userDocument"),data.get("docType"))
-    #TODO: Cerrar conexión
     if(resul["Success"]):
         return jsonify(resul),200
     else:
@@ -72,6 +71,7 @@ def crear_carrito():
 def add_product():
     try:
         data=request.get_json()
+        print(data)
         prod_id=data.get("product_id")
         prodService=CommunicationProdService()
         prodInfo=prodService.obtainProductInfo(prod_id)
@@ -148,7 +148,12 @@ def vaciar_carrito():
 def get_carrito(id):
     try:
         result=obtCarritoUseC.getAllCarritoInfo(id)
-        return jsonify(result),201
+        if(result["message"]=="No existe"):
+            return jsonify({"Success":False,"message":"El carrito no existe"}),404
+        elif result["Success"]:
+            return jsonify(result),201
+        else:
+            return jsonify(result),400
     except Exception as e:
         return jsonify ({"Success":False, "message":str(e)}),500
 

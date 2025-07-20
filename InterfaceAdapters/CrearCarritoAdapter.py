@@ -11,10 +11,10 @@ class CrearCarritoAdapter(CrearCarrritoI):
         try:
             with connection.cursor() as cursor:
                 sqlQuery = """
-                    INSERT INTO carrito (userdocument, userdocumenttype)
-                    VALUES (%s, %s);
+                    INSERT INTO carrito (id_carrito,userdocument, userdocumenttype)
+                    VALUES (%s,%s, %s);
                 """
-                cursor.execute(sqlQuery, (newCarrito.user_document, newCarrito.user_documentType))
+                cursor.execute(sqlQuery, (newCarrito.carrito_id,newCarrito.user_document, newCarrito.user_documentType))
             connection.commit()
             return {"Success": True, "message": "Carrito Creado"}
         except Exception as e:
