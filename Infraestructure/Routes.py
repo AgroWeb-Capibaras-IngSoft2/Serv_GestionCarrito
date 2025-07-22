@@ -467,6 +467,17 @@ def get_carrito(id):
     except Exception as e:
         return jsonify ({"Success":False, "message":str(e)}),500
 
+@bp.route("/carrito/getIdCarrito/<userdocument>/<doctype>",methods=["GET"])
+def getIdCarrito(userdocument,doctype):
+    try:
+        print(userdocument,doctype)
+        id_carrito=utils.obtenerIdCarrito(userdocument,doctype)[0]
+        print(id_carrito)
+        return jsonify({"Success":True,"id_carrito":id_carrito}),200
+    except Exception as e:
+        return jsonify({"Success":False,"message":"No fue posible obtener un id de carrito para este usuario"}),404
+
+
 
 
 

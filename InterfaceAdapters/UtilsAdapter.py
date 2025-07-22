@@ -86,9 +86,11 @@ class UtilsAdapter(UtilsI):
             with self.connection.cursor() as cursor:
                 cursor.execute(sqlQuery,(numberDocument,typeDocument))
                 result=cursor.fetchone()
+                print(result)
         except Exception as e:
             # Hacer rollback para limpiar la transacción
             self.connection.rollback()
+            print(str(e))
             raise ValueError(str(e))
         finally:
             self.pool.putconn(self.connection)
