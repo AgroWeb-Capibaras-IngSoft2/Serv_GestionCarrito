@@ -7,7 +7,7 @@ from prometheus_client import generate_latest,CONTENT_TYPE_LATEST
 from Infraestructure.metrics import REQUEST_COUNT, REQUEST_LATENCY, ERROR_COUNT
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173"])  # Allow CORS for the specified origin
+CORS(app, origins=["http://localhost:5174"])  # Allow CORS for the specified origin
 
 # Configuración de Swagger
 swagger_config = {
