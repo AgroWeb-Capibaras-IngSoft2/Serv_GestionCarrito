@@ -12,7 +12,7 @@ class Carrito:
 
     #TODO: Añadir cedula de extranjería
     def validar_tipo_doc(self):
-        return self.user_documentType in ["CC","TI"]
+        return self.user_documentType in ["CC","TI","C.C","T.I","Cedula Extranjera"]
 
     def __post_init__(self):
        if (not self.validar_tipo_doc()):

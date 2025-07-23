@@ -49,31 +49,30 @@ DATA_BASE_URL=postgresql://usuario:contraseña@host:puerto/nombre_bd
 
 ```sql
 -- Tabla carrito
-CREATE TABLE IF NOT EXISTS carrito (
-    id_carrito SERIAL,
-    userDocument VARCHAR(15) NOT NULL,
-    userDocumentType VARCHAR(4) NOT NULL,
-    creationDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total NUMERIC(10,2) DEFAULT 0.00,
-    PRIMARY KEY(id_carrito, userDocument, userDocumentType)
-);
+CREATE TABLE carrito (
+     id_carrito character varying(15) NOT NULL,
+     userdocument character varying(15) NOT NULL,
+     userdocumenttype character varying(4) NOT NULL,
+     creationdate timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+     PRIMARY KEY (id_carrito, userdocument, userdocumenttype)
+ );
 
 -- Tabla item_carrito
-CREATE TABLE IF NOT EXISTS item_carrito (
-    idItem SERIAL,
-    id_carrito INTEGER NOT NULL,
-    userDocument VARCHAR(15) NOT NULL,
-    userDocumentType VARCHAR(4) NOT NULL,
-    product_id INTEGER NOT NULL,
-    product_name TEXT NOT NULL,
-    cantidad INTEGER NOT NULL CHECK (cantidad > 0),
-    medida TEXT NOT NULL,
-    total_prod NUMERIC(10,2) NOT NULL,
-    PRIMARY KEY (idItem, id_carrito, userDocument, userDocumentType),
-    FOREIGN KEY (id_carrito, userDocument, userDocumentType)
-        REFERENCES carrito(id_carrito, userDocument, userDocumentType)
-        ON DELETE CASCADE
-);
+CREATE TABLE item_carrito (
+     iditem SERIAL NOT NULL ,
+     id_carrito character varying(15) NOT NULL,
+     userdocument character varying(15) NOT NULL,
+     userdocumenttype character varying(4) NOT NULL,
+     product_id character varying(20) NOT NULL,
+     product_name text NOT NULL,
+     cantidad integer NOT NULL,
+     medida text NOT NULL,
+     total_prod numeric(10,2) NOT NULL,
+     PRIMARY KEY (iditem, id_carrito, userdocument, userdocumenttype),
+     CONSTRAINT item_carrito_cantidad_check CHECK ((cantidad > 0)),
+     CONSTRAINT unique_product_id_carrito UNIQUE (id_carrito, product_id),
+     CONSTRAINT fk_item_carrito_to_carrito FOREIGN KEY (id_carrito, userdocument, userdocumenttype) 
+    REFERENCES carrito(id_carrito, userdocument, userdocumenttype));
 ```
 
 ## 2. Ejecución local
