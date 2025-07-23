@@ -1,6 +1,11 @@
 
 # Changelog
 
+## [2.1.1] - 2025-07-23
+### Changed
+- Se eliminó la caché del repositorio para evitar archivos temporales innecesarios.
+- Se corrigió el archivo `.gitignore` para asegurar que los archivos de caché y temporales no sean versionados.
+
 ## [2.1.0] - 2025-07-23
 ### Added
 - Endpoints adicionales para gestión de carritos y productos:
